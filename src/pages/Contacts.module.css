@@ -1,0 +1,26 @@
+.contactsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.contactsItem {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  gap: 5px;
+}
+
+.contactsPreloader {
+  display: flex;
+  /* height: 40px; */
+  align-items: center;
+  font-size: 20px;
+  gap: 10px;
+}
+
+.preloader {
+  display: flex;
+
+  gap: 5px;
+}

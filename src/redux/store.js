@@ -1,4 +1,9 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
+
+import sliceFilterReducer from './phonebook/sliceFilter';
+import sliceContactsReducer from './phonebook/slice';
+import sliceAuthReducer from './auth/slice';
+
 import {
   persistStore,
   persistReducer,
@@ -9,32 +14,39 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
+
 import storage from 'redux-persist/lib/storage';
-import { tasksReducer } from './tasks/slice';
-import { authReducer } from './auth/slice';
 
-const middleware = [
-  ...getDefaultMiddleware({
-    serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    },
-  }),
-];
-
-// Persisting token field from auth slice to localstorage
 const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['token'],
+  whitelist: ['token'], // дозволяю зберігати у локальному сховищі тільки цей ключ з цілого об'єкту sliceAuth.initialState
 };
 
-export const store = configureStore({
+// ~ Додатковий middleware, щоби позбутись помилки у консолі - необхідно для роботи Redux-Persist
+const middleware = getDefaultMiddleware =>
+  getDefaultMiddleware({
+    // якісь перевірки для серилізації:
+    serializableCheck: {
+      // якісь екшени, які будуть ігноруватись:
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  });
+
+// Глобальний стор Redux виношу у окрему змінну:
+const storeRedux = configureStore({
   reducer: {
-    auth: persistReducer(authPersistConfig, authReducer),
-    tasks: tasksReducer,
+    // storeContacts: persistReducer(contactsPersistConfig, sliceContactsReducer),
+    storeAuth: persistReducer(authPersistConfig, sliceAuthReducer),
+    storeContacts: sliceContactsReducer,
+    storeFilter: sliceFilterReducer,
   },
-  middleware,
-  devTools: process.env.NODE_ENV === 'development',
+
+  // ~ Додатковий middleware, щоби позбутись помилки у консолі - необхідно для роботи Redux-Persist
+  middleware, // middleware: middleware,
 });
 
-export const persistor = persistStore(store);
+// Пов'язую створене Redux-Persist сховище з глобальним Redux стором:
+export const persister = persistStore(storeRedux); // Маю передати його до компоненту <PersistGate> у кореневому index.js
+
+export default storeRedux;
