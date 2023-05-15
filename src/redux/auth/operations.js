@@ -31,13 +31,9 @@ export const fetchLogIn = createAsyncThunk(
   'auth/login',
   async (credentials, { rejectWithValue }) => {
     try {
-      // Відправляю дані клієнта на бекенд для аутентифікації
       const response = await axios.post('/users/login', credentials);
-      // Після запиту бекенд формує pending/fulfilled/rejected
 
-      // ^ два варіанти - через функцію tokenFn і напряму:
       tokenFn.set(response.data.token);
-      // axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
 
       return response.data;
     } catch (error) {
@@ -49,19 +45,9 @@ export const fetchLogIn = createAsyncThunk(
 export const fetchLogOut = createAsyncThunk(
   'auth/logout',
   async (token, { rejectWithValue }) => {
-    // credentials - об'єкт з властивосями:
-    // {
-    //   "email": "string",
-    //   "password": "string",
-    // }
     try {
-      // Відправляю дані клієнта на бекенд для аутентифікації
-      // Не зрозуміло чи потребен token - працює і без нього, хоча в документації він ніби потрібен
       const response = await axios.post('/users/logout', token);
-      // Після запиту бекенд формує pending/fulfilled/rejected
 
-      // ^ два варіанти - через функцію tokenFn і напряму:
-      // axios.defaults.headers.common.Authorization = '';
       tokenFn.unset();
 
       return response.data;
@@ -71,7 +57,6 @@ export const fetchLogOut = createAsyncThunk(
   }
 );
 
-// thunkAPI.getState() - повертає весь Redux-стан повністю
 export const fetchCurrentUser = createAsyncThunk(
   'auth/refresh',
   async (_, { getState, rejectWithValue }) => {

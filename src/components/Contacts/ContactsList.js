@@ -1,6 +1,6 @@
 import Notiflix from 'notiflix';
 import PropTypes from 'prop-types';
-import css from './Contacts.module.css';
+
 import { useDispatch } from 'react-redux';
 
 import { deleteContact } from 'redux/phonebook/operations';
@@ -20,7 +20,7 @@ export function ContactsList({ name, number, id }) {
   };
 
   return (
-    <li className={css.listItem}>
+    <li>
       {name}: {number}
       <button className="btn btn-outline-primary" onClick={handleDeleteContact}>
         Delete

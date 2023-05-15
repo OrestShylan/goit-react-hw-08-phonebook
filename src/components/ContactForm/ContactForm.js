@@ -1,10 +1,9 @@
 import Notiflix from 'notiflix';
 import { useState } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
-
 import { selectContacts } from 'redux/phonebook/selectors';
 import { addContact } from 'redux/phonebook/operations';
+import css from './ContactFrom.module.css';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
@@ -43,9 +42,11 @@ export const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={setContact}>
-      <div>
-        <label htmlFor="UserName">Name</label>
+    <form className={css.userFormWrapper} onSubmit={setContact}>
+      <div className={css.inputWrapper}>
+        <label htmlFor="UserName" className={css.formLabel}>
+          Name
+        </label>
 
         <input
           className="form-control me-2"
@@ -62,7 +63,7 @@ export const ContactForm = () => {
         />
       </div>
 
-      <div>
+      <div className={css.inputWrapper}>
         <label htmlFor="UserNumber">Phone Number</label>
         <input
           className="form-control me-2"

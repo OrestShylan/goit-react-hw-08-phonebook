@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserName, selectUserToken } from '../../redux/auth/selectors';
-
+import css from './UserMenu.module.css';
 import { fetchLogOut } from 'redux/auth/operations';
 
 export const UserMenu = () => {
@@ -10,7 +10,7 @@ export const UserMenu = () => {
 
   return (
     <>
-      <div>
+      <div className={css.userMenuContainer}>
         <p>Welcome, {name}</p>
         <button
           type="button"
