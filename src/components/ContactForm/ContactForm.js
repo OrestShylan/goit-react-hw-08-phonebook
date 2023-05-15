@@ -20,7 +20,7 @@ export const ContactForm = () => {
     }
   };
 
-  const setContact = e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     const isExist = contacts.find(contact => contact.name === userName);
@@ -42,7 +42,7 @@ export const ContactForm = () => {
   };
 
   return (
-    <form className={css.userFormWrapper} onSubmit={setContact}>
+    <form className={css.userFormWrapper} onSubmit={handleSubmit}>
       <div className={css.inputWrapper}>
         <label htmlFor="UserName" className={css.formLabel}>
           Name
